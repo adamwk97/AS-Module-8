@@ -37,7 +37,7 @@ C. Compute the p value and interpret its meaning
 pval = round(2*pnorm(-abs(z)),4)
 ```
 
-The p value is 0.0719, so we can not yet accept nor reject the null hypothesis.
+The p value is 0.0719, so we can see there is strong evidence against the null hypothesis, however we cannot necessarily reject it quite yet off of this number alone.
 
 D. What would be your answer in (B) if the standard deviation were specified as 1.75 pounds?
 
