@@ -1,0 +1,78 @@
+<h1 id="advanced-statistics-module-8---hypothesis-testing-and-correlation-analysis">Advanced Statistics Module 8 - Hypothesis Testing and Correlation Analysis</h1>
+<h1 id="first-question">First Question:</h1>
+<p>The director of manufacturing at a cookie store needs to determine whether a new machine is producing a particular type of cookie according to the manufacturer's specifications, which indicate that each batch of cookies should have a mean of 70 and standard deviation of 3.5 pounds. A sample of 49 batches of cookies reveals a sample mean size of 69.1 pounds.</p>
+<p>A. State the null and alternative hypothesis</p>
+<p>The Null Hypothesis (H<sub>0</sub>) is that the cookies are not approximately equal to 70 pounds.</p>
+<p>The Alternative Hypothesis (H<sub>A</sub>) is that the cookies are approximately equal to 70 pounds.</p>
+<p>B. Is there evidence that the machine is not meeting the manufacturer's specifications for average weight? Use a 0.05 level of significance</p>
+<pre class="sourceCode r"><code class="sourceCode r">qnorm =<span class="st"> </span><span class="kw">round</span>(<span class="kw">qnorm</span>(.<span class="dv">95</span>),<span class="dv">4</span>)
+
+xbar =<span class="st"> </span><span class="fl">69.1</span>
+popmean =<span class="st"> </span><span class="dv">70</span>
+sd =<span class="st"> </span><span class="fl">3.5</span>
+sampsize =<span class="st"> </span><span class="dv">49</span></code></pre>
+<p>In order to accept or claim the null hypothesis, we must determine whether or not our Z value is less than or greater than 1.6449. To find our test statistic, we know that the sample mean (xbar) is 69.1, the value of the population mean (μ) for the null hypothesis is 70, the standard deviation is 3.5, and the sample size is 49.</p>
+<pre class="sourceCode r"><code class="sourceCode r">z =<span class="st"> </span><span class="kw">round</span>((xbar-popmean)/(sd/<span class="kw">sqrt</span>(sampsize)),<span class="dv">4</span>)</code></pre>
+<p>We can now calculate the z value which in this case is -1.8, and since this value falls outside the range of (1.6449, -1.6449), we can reject the null hypothesis, meaning there is not evidence that the machine is not meeting specifications.</p>
+<p>C. Compute the p value and interpret its meaning</p>
+<pre class="sourceCode r"><code class="sourceCode r">pval =<span class="st"> </span><span class="kw">round</span>(<span class="dv">2</span>*<span class="kw">pnorm</span>(-<span class="kw">abs</span>(z)),<span class="dv">4</span>)</code></pre>
+<p>The p value is 0.0719, so we can not yet accept nor reject the null hypothesis.</p>
+<p>D. What would be your answer in (B) if the standard deviation were specified as 1.75 pounds?</p>
+<pre class="sourceCode r"><code class="sourceCode r">sd =<span class="st"> </span><span class="fl">1.75</span>
+z =<span class="st"> </span><span class="kw">round</span>((xbar-popmean)/(sd/<span class="kw">sqrt</span>(sampsize)),<span class="dv">4</span>)</code></pre>
+<p>If the standard deviation were 1.75 instead of 3.5, the new z score would be -3.6, meaning we would have even more reason to reject the null hypothesis and again there would be little evidence that the machine is not meeting specifications.</p>
+<p>What would be your answer in (B) if the sample mean were 69 pounds and the standard deviation is 3.5 pounds?</p>
+<pre class="sourceCode r"><code class="sourceCode r">xbar =<span class="st"> </span><span class="dv">69</span>
+sd=<span class="st"> </span><span class="fl">3.5</span>
+z =<span class="st"> </span><span class="kw">round</span>((xbar-popmean)/(sd/<span class="kw">sqrt</span>(sampsize)),<span class="dv">4</span>)</code></pre>
+<p>If the sample mean was 69 pounds and the standard deviation was 3.5 pounds, the z value would be -2, meaning that we would still reject the null hypothesis and would have little evidence against the machine not meeting specifications.</p>
+<h1 id="second-question">Second Question:</h1>
+<p>If x̅ = 85, σ = standard deviation = 8, and n=64, set up 95% confidence interval estimate of the population mean μ.</p>
+<pre class="sourceCode r"><code class="sourceCode r">z =<span class="st"> </span><span class="kw">round</span>(<span class="kw">qnorm</span>(.<span class="dv">95</span>),<span class="dv">4</span>)
+me =<span class="st"> </span>z*(<span class="dv">8</span>/<span class="kw">sqrt</span>(<span class="dv">64</span>))
+me =<span class="st"> </span><span class="kw">round</span>(me,<span class="dv">4</span>)
+
+
+cipos =<span class="st"> </span><span class="kw">round</span>((<span class="dv">85</span>+me),<span class="dv">4</span>)
+cineg =<span class="st"> </span><span class="kw">round</span>((<span class="dv">85</span>-me),<span class="dv">4</span>)</code></pre>
+<p>We are 95% confident that the population mean falls within 86.6449 and 83.3551.</p>
+<h1 id="third-question-using-correlation-analysis">Third Question using Correlation Analysis</h1>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
+df =<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;C:/Users/adamw/Documents/Advanced Statistics/Module 8/Copy of module # 8.xls&quot;</span>)</code></pre>
+<pre><code>## New names:
+## * `` -&gt; ...2
+## * `` -&gt; ...3
+## * `` -&gt; ...4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">c</span>(df$...<span class="dv">2</span>)
+y =<span class="st"> </span><span class="kw">c</span>(df$...<span class="dv">3</span>)
+z =<span class="st"> </span><span class="kw">c</span>(df$...<span class="dv">4</span>)
+
+df =<span class="st"> </span><span class="kw">data.frame</span>(x,y,z)
+df =<span class="st"> </span><span class="kw">na.omit</span>(df)
+
+pearson =<span class="st"> </span><span class="kw">cor</span>(df,<span class="dt">method=</span><span class="st">&quot;pearson&quot;</span>)
+spearman =<span class="st"> </span><span class="kw">cor</span>(df,<span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>)</code></pre>
+<p>Here we can see the correlation coefficients for this dataset.</p>
+<pre class="sourceCode r"><code class="sourceCode r">pearson</code></pre>
+<pre><code>##           x         y         z
+## x 1.0000000 0.9956473 0.9996230
+## y 0.9956473 1.0000000 0.9978234
+## z 0.9996230 0.9978234 1.0000000</code></pre>
+<p>Here are the pearson correlation coefficients.</p>
+<pre class="sourceCode r"><code class="sourceCode r">spearman</code></pre>
+<pre><code>##           x         y         z
+## x 1.0000000 0.9634146 1.0000000
+## y 0.9634146 1.0000000 0.9634146
+## z 1.0000000 0.9634146 1.0000000</code></pre>
+<p>And here are the spearman correlation coefficients.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(corrplot)</code></pre>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot</span>(pearson)</code></pre>
+<div class="figure">
+<img src="Module-8_files/figure-markdown_github/unnamed-chunk-10-1.png" />
+</div>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">corrplot</span>(spearman)</code></pre>
+<div class="figure">
+<img src="Module-8_files/figure-markdown_github/unnamed-chunk-10-2.png" />
+</div>
+<p>Here we can see our three correlation plots. The first being our Pearson coefficients, and secondly the Spearman coefficients. With both of these graphs, it is evident that there is very strong correlation between all three columns of our dataset.</p>
